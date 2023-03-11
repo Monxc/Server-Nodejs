@@ -4,11 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write source/**/*.{js,json,sass}",
+    "beautiful": "lint-staged",
     "start": "nodemon --inspect source/server.js",
     "scss": "node-sass --watch source/scss/ --o source/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
+  },
+  "lint-staged": {
+    "source/**/*.{js,json,sass}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +21,7 @@
   },
   "devDependencies": {
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
     "node-sass": "^8.0.0",
     "nodemon": "^2.0.21",
     "prettier": "^2.8.4"
