@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "beautiful": "lint-staged",
+    "pre-commit": "lint-staged",
     "start": "nodemon --inspect source/server.js",
     "scss": "node-sass --watch source/scss/ --o source/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1",
