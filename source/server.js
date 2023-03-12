@@ -1,8 +1,11 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
 const app = express();
-var path = require('path');
+const path = require('path');
 const route = require('./route');
+const db = require('./config/db/index');
+
+db.connect();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

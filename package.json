@@ -6,7 +6,7 @@
   "scripts": {
     "pre-commit": "lint-staged",
     "start": "nodemon --inspect source/server.js",
-    "scss": "node-sass --watch source/scss/ --o source/public/css/",
+    "scss": "node-sass -w source/scss/ -o source/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },
@@ -17,7 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^7.0.2"
+    "express-handlebars": "^7.0.2",
+    "mongoose": "^7.0.1"
   },
   "devDependencies": {
     "husky": "^8.0.3",
