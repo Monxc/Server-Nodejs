@@ -3,9 +3,10 @@ const { mutipleMongooseToObject } = require('../../ultil/mongoose');
 
 class siteController {
     index(req, res, error) {
-        Students.find({})
-            .then((students) => {
+        Promise.all([Students.find({}), Students.countDeleted()])
+            .then(([students, count]) => {
                 res.render('home', {
+                    count,
                     students: mutipleMongooseToObject(students),
                 });
             })

@@ -6,7 +6,8 @@
   <div>
   <select class="form-select-sm" style="margin:0 8px" aria-label="Default select example" name="action" required>
   <option value="">--Chọn hành động--</option>
-  <option value="delete">Xóa</option>
+  <option value="restore">Khôi Phục</option>
+  <option value="deleteForce">Xóa Vĩnh Viễn</option>
   </select>
   <button class="btn btn-primary btn-sm btn-submit disabled">Thực hiện</button>
   </div>
@@ -15,23 +16,17 @@
 {{#each students}}
 <div class="card" style="width: 18rem;">
   <div class="card-body">
-      <input class="form-check-input" type="checkbox" name="studentids[]" value="{{this._id}}">
+    <input class="form-check-input" type="checkbox" name="studentids[]" value="{{this._id}}">
     <h5 class="card-title">{{this.name}}</h5>
     <p class="card-text">{{this.class}}</p>
-    <a href="/student/{{this.slug}}" class="btn btn-info">Xem Điểm</a>
-    <a href="" class="btn btn-danger" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#delete-student">Xóa</a>
+    <button class="btn btn-primary btn-restore" data-id="{{this._id}}">Khôi Phục</button>
+    <button class="btn btn-danger" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#delete-student">Xóa Vĩnh Viễn</button>
   </div>
 </div>
 {{else}}
-<div>
-  <span>Bạn chưa có học sinh nào!</span>
-</div>
+<span>Bạn chưa xóa học sinh</span><br>
+<a href="/" style="margin-top: 30px" class="btn btn-primary">Danh sách học sinh</a>
 {{/each}}
-    <a href="/student/create" style="margin-top: 30px" class="btn btn-primary">Thêm học sinh</a>
-    {{#if count}}
-    <a href="/student/trash" style="margin-top: 30px" class="btn btn-primary">Học sinh đã xóa ({{count}})</a>
-    {{/if}}
-</form>
 {{!--Confirm Delete--}}
 <div class="modal fade" id="delete-student" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -47,25 +42,35 @@
     </div>
   </div>
 </div>
+</form>
 <form method="POST" name="handler-student-form"></form>
 <script>
 let id;
 let deleteBtn = document.querySelector('#btn-delete-student')
 let formHandlerElement = document.forms['handler-student-form']
+let restoreBtn = document.querySelectorAll('.btn-restore')
 let containerForm = document.forms['container-form']
 let checkBoxAllElement = document.querySelector('#checkbox-all')
 let checkBoxElement = document.querySelectorAll('input[name="studentids[]"]')
 let submitBtn = document.querySelector('.btn-submit')
+
     var idElement = document.getElementById('delete-student')
     idElement.addEventListener('show.bs.modal', function (e) {
     var button = e.relatedTarget
     id = button.getAttribute('data-id')
   })
     deleteBtn.onclick = function(){
-      formHandlerElement.action = `/student/${id}?_method=DELETE`
+      formHandlerElement.action = `/student/${id}/force?_method=DELETE`
       formHandlerElement.submit();
     }
-    checkBoxAllElement.onchange = function(){
+    for(let i = 0; i < restoreBtn.length; i++){
+        restoreBtn[i].onclick = function(){
+            id = restoreBtn[i].getAttribute('data-id')
+            formHandlerElement.action = `/student/${id}/restore?_method=PATCH`
+            formHandlerElement.submit()
+        }
+    }
+        checkBoxAllElement.onchange = function(){
         for(let i = 0; i < checkBoxElement.length; i++) {
           let isCheckedAll = checkBoxAllElement.checked
           checkBoxElement[i].checked = isCheckedAll;

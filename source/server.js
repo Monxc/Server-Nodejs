@@ -4,12 +4,13 @@ const app = express();
 const path = require('path');
 const route = require('./route');
 const db = require('./config/db/index');
+var methodOverride = require('method-override');
 
 db.connect();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 route(app);
