@@ -12,4 +12,5 @@ router.get('/trash', studentController.trash);
 router.post('/handler-students', studentController.handlerStudentAction);
 router.patch('/:id/restore', studentController.restore);
 router.get('/:slug', studentController.show);
+router.get('/', studentController.index);
 module.exports = router;

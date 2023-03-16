@@ -3,5 +3,4 @@ const router = express.Router();
 const siteController = require('../app/controllers/siteControllers');
 
 router.get('/contact', siteController.contact);
-router.get('/', siteController.index);
 module.exports = router;
